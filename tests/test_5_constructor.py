@@ -24,3 +24,5 @@ class TestConstructor:
             WebDriverWait(driver, 10).until(
                 lambda d: CURRENT_TAB_CLASS in element.get_attribute("class")
             )
+
+            assert element.text == tab_name, "Выделен не верный таб"
