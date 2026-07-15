@@ -5,12 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from locators import *
-
-
-BASE_URL = "https://stellarburgers.education-services.ru/"
-LOGIN_URL = "https://stellarburgers.education-services.ru/login"
-REGISTER_URL = "https://stellarburgers.education-services.ru/register"
-PROFILE_URL = "https://stellarburgers.education-services.ru/account/profile"
+from constants import *
 
 # Инициализируем глобальные переменные чтобы использоватьих в нескольких тестах
 default_email = ''
@@ -26,10 +21,6 @@ def wait_for_clickable(driver, locator, by_id=By.XPATH, timeout=10):
         EC.element_to_be_clickable((by_id, locator))
     )
 
-def setup_driver():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    return driver
 
 def generate_unique_email(name: str = 'ivan_ivanov', cohort: int = 1) -> str:
     """

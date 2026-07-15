@@ -1,23 +1,13 @@
+import time
 from functions import *
 from locators import *
-import time
-
-
-email = generate_unique_email('MariaUllrich', 49)
-password = generate_password(10)
-
-def test_successful_registration():
-    driver = setup_driver()
-    try:
-        registration(driver, email, 'test', password)
-    finally:
-        driver.quit()
+from constants import *
 
 # тест по выходу из кабинета
+class TestLogout:
+    def test_logout(self, registered_user):
+        driver, email, password = registered_user
 
-def test_logout():
-    driver = setup_driver()
-    try:
         driver.get(BASE_URL)
         wait_for_clickable(driver, BTN_PERSONAL_CABINET, By.CSS_SELECTOR).click()
 
@@ -27,9 +17,13 @@ def test_logout():
         wait_for_clickable(driver, BTN_LOGIN_SUBMIT).click()
 
         wait_for_clickable(driver, BTN_PERSONAL_CABINET, By.CSS_SELECTOR).click()
+
+        # Ждём, пока не произойдет переход на страницу профиля
+        WebDriverWait(driver, 10).until(EC.url_contains("/profile"))
         wait_for_clickable(driver, BTN_LOGOUT).click()
-        time.sleep(1)
+
+        # Ждём, пока не произойдет переход на страницу login
+        WebDriverWait(driver, 10).until(EC.url_contains("/login"))
+        
         # После выхода проверяем, что кнопка входа снова видна
         assert wait_for_element(driver, BTN_LOGIN_SUBMIT) is not None
-    finally:
-        driver.quit()

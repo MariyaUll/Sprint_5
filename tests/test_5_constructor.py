@@ -1,26 +1,27 @@
 import time
 from functions import *
 from locators import *
+from constants import *
 
 # # --- Раздел «Конструктор» ---
+class TestConstructor:
 
-def test_constructor_tabs():
-    driver = setup_driver()
-    try:
+    def test_constructor_tabs(self, driver):
+   
         driver.get(BASE_URL)
         wait_for_clickable(driver, BTN_CONSTRUCTOR).click()
 
-        # Переключаемся между вкладками и проверяем их доступность
-        wait_for_clickable(driver, TAB_SAUCES).click()
-        time.sleep(0.5) # небольшая пауза, чтобы интерфейс успел обновиться
+        tabs = [
+            (TAB_SAUCES, "Соусы"),
+            (TAB_INGREDIENTS, "Начинки"),
+            (TAB_BUNS, "Булки"),
+        ]
 
-        wait_for_clickable(driver, TAB_INGREDIENTS).click()
-        time.sleep(0.5)
+        for tab_locator, tab_name in tabs:
+            element = wait_for_clickable(driver, tab_locator)
+            element.click()
 
-        wait_for_clickable(driver, TAB_BUNS).click()
-        time.sleep(0.5)
-
-        # Если вкладки видны и кликабельны — считаем тест пройденным
-        assert True
-    finally:
-        driver.quit()
+            # Ждём, пока у элемента появится активный класс
+            WebDriverWait(driver, 10).until(
+                lambda d: CURRENT_TAB_CLASS in element.get_attribute("class")
+            )
