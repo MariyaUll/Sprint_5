@@ -1,4 +1,3 @@
-import time
 from functions import *
 from locators import *
 from constants import *

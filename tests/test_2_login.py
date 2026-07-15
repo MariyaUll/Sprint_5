@@ -49,8 +49,7 @@ class TestLogin:
 
         # Ждём, пока не произойдет переход на страницу login
         WebDriverWait(driver, 10).until(EC.url_contains("/login"))
-        
-        # EC.element_to_be_clickable((By.XPATH, INPUT_LOGIN))
+
         wait_for_element(driver, INPUT_LOGIN).send_keys(email)
         wait_for_element(driver, INPUT_PASSWORD).send_keys(password)
         wait_for_clickable(driver, BTN_LOGIN_SUBMIT).click()
