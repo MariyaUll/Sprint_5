@@ -43,3 +43,11 @@ def registration(driver, email: str, name, password: str):
     wait_for_element(driver, INPUT_LOGIN).send_keys(email)
     wait_for_element(driver, INPUT_PASSWORD).send_keys(password)
     wait_for_clickable(driver, BTN_REGISTER_SUBMIT).click()
+
+def select_tab(driver, tab_locator):
+    element = wait_for_clickable(driver, tab_locator)
+    element.click()
+    WebDriverWait(driver, 10).until(
+        lambda d: CURRENT_TAB_CLASS in element.get_attribute("class")
+    )
+    return element
